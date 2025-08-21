@@ -47,7 +47,7 @@ const AuthLayout = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <motion.img
-                src="/logo (1).svg"
+                src="/logo.svg"
                 alt="Welcome"
                 className="w-30 sm:w-64 mx-auto mb-2 sm:mb-4"
                 initial={{ scale: 0.8, opacity: 0 }}
