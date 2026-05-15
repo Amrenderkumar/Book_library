@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { paths } from "./constant/menuItems";
 import Home from "./Pages/Home";
 import Error from "./Error";
@@ -19,6 +19,8 @@ function App() {
       <Router>
         <Toaster position="top-right" />
         <Routes>
+          <Route path="/" element={<Navigate to={paths.login} replace />} />
+          
           <Route element={<AuthLayout />}>
             <Route path={paths.login} element={<Login />} />
             <Route path={paths.signup} element={<Signup />} />

@@ -8,19 +8,36 @@ const GuestRoute = ({ children }) => {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
+    let mounted = true;
+    const timeoutId = setTimeout(() => {
+      if (mounted) setLoading(false);
+    }, 5000); // 5 second timeout
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setLoading(false);
+      if (mounted) {
+        setSession(session);
+        setLoading(false);
+      }
+      clearTimeout(timeoutId);
+    }).catch(() => {
+      if (mounted) {
+        setLoading(false);
+      }
+      clearTimeout(timeoutId);
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setSession(session);
+        if (mounted) setSession(session);
       }
     );
 
     return () => {
-      listener.subscription.unsubscribe();
+      mounted = false;
+      clearTimeout(timeoutId);
+      if (listener?.subscription) {
+        listener.subscription.unsubscribe();
+      }
     };
   }, []);
 
